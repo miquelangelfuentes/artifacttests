@@ -1,17 +1,286 @@
-Claredat:
-"Estic treballant en una situació d'aprenentatge sobre el cicle de l'aigua. Com puc formular un títol clar i concís per fer-lo fàcil d'entendre per al meu alumnat?"
-"Per una situació d'aprenentatge sobre els hàbits alimentaris saludables, com puc utilitzar paraules clau que facin el títol més comprensible i directe?"
-Rellevància:
-"Estic planificant una activitat sobre les energies renovables. Com puc assegurar-me que el títol reflecteixi clarament el contingut i l'objectiu principal de la situació d'aprenentatge?"
-"Per una situació d'aprenentatge centrada en la biodiversitat local, podries suggerir un títol que representi fidelment els conceptes principals que es treballaran?"
-Motivació:
-"Estic creant una situació d'aprenentatge sobre els invents tecnològics. Com puc fer que el títol capti l'atenció de l'alumnat i els motivi a participar en l'activitat?"
-"Per una activitat sobre la importància del reciclatge, com puc formular un títol que soni emocionant o intrigant per a l'alumnat?"
-Contextualització:
-"Estic dissenyant una situació d'aprenentatge sobre l'impacte del canvi climàtic. Com puc relacionar el títol amb un context real o proper a l'alumnat per fer-lo més rellevant?"
-"Per una activitat sobre la cultura mediterrània, quines referències a esdeveniments o fenòmens culturals podrien incloure's en el títol per fer-lo més contextual?"
-Aprenentatge competencial:
-"Estic treballant en una situació d'aprenentatge sobre la resolució de problemes matemàtics. Quin tipus d'habilitats, sabers o actituds es treballaran que podrien ser reflectides en el títol?"
-"Per una activitat sobre el treball en equip en projectes científics, podries suggerir un títol que inclogui mencions a les competències clau que es desenvolupen?"
-Estructura:
-"Estic creant una situació d'aprenentatge sobre la història antiga. Com puc estructurar el títol de manera que inclogui un subtítol o una breu explicació per clarificar l’objectiu?"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Detective Game</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f9ff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 1rem;
+        }
+
+        .game-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e1f0fe 100%);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 640px;
+            margin: 1rem;
+        }
+
+        .game-header {
+            background: #3b82f6;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px 12px 0 0;
+            text-align: center;
+        }
+
+        .game-content {
+            padding: 1.5rem;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #93c5fd;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .button {
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .button-primary:hover {
+            background: #2563eb;
+        }
+
+        .button-secondary {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .button-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        .button-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .button-danger:hover {
+            background: #dc2626;
+        }
+
+        .game-log {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .log-entry {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .sample-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .sample-question {
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .sample-question:hover {
+            background: #bfdbfe;
+        }
+
+        .icon {
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-card">
+        <div class="game-header">
+            <h1>🕵️ Animal Detective Game</h1>
+        </div>
+        <div class="game-content">
+            <div id="game-controls">
+                <input type="text" class="input-field" id="question-input" placeholder="Ask a yes/no question about the animal">
+                <div class="button-group">
+                    <button class="button button-primary" onclick="handleQuestionSubmit()">Submit Question</button>
+                    <button class="button button-secondary" onclick="showHint()" id="hint-button">💡 Hint</button>
+                    <button class="button button-danger" onclick="revealSolution()">🎯 Solution</button>
+                </div>
+                <div class="sample-questions" id="sample-questions"></div>
+                <div class="game-log" id="game-log"></div>
+                <button class="button button-primary" onclick="startNewGame()" id="new-game-button" style="display: none; margin-top: 1rem;">🔄 Play Another Round</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ANIMALS = [
+            { name: 'Lion', category: 'mammal', hints: ['Lives in Africa', 'Has a big mane', 'King of the jungle'] },
+            { name: 'Penguin', category: 'bird', hints: ['Lives in cold places', 'Cannot fly', 'Black and white'] },
+            { name: 'Frog', category: 'amphibian', hints: ['Lives near water', 'Can jump high', 'Green color'] },
+            { name: 'Snake', category: 'reptile', hints: ['No legs', 'Can shed skin', 'Some are venomous'] },
+            { name: 'Shark', category: 'fish', hints: ['Lives in ocean', 'Has sharp teeth', 'Some species never stop swimming'] },
+            { name: 'Elephant', category: 'mammal', hints: ['Largest land animal', 'Has long trunk', 'Lives in herds'] },
+            { name: 'Eagle', category: 'bird', hints: ['Powerful predator', 'Sharp vision', 'Can fly very high'] },
+            { name: 'Salamander', category: 'amphibian', hints: ['Looks like a lizard', 'Smooth skin', 'Lives near streams'] },
+            { name: 'Crocodile', category: 'reptile', hints: ['Lives in rivers', 'Powerful jaw', 'Ancient species'] },
+            { name: 'Tuna', category: 'fish', hints: ['Important for fishing', 'Fast swimmer', 'Silver color'] }
+        ];
+
+        const SAMPLE_QUESTIONS = [
+            'Does this animal have fur?',
+            'Can this animal fly?',
+            'Does this animal live in water?',
+            'Is this animal a predator?',
+            'Does this animal have legs?',
+            'Is this animal bigger than a human?',
+            'Does this animal live on land?',
+            'Can this animal make sounds?'
+        ];
+
+        let currentAnimal = null;
+        let gameLog = [];
+        let gameOver = false;
+        let hintIndex = 0;
+
+        function startNewGame() {
+            currentAnimal = ANIMALS[Math.floor(Math.random() * ANIMALS.length)];
+            gameLog = [];
+            gameOver = false;
+            hintIndex = 0;
+            updateGameLog();
+            document.getElementById('new-game-button').style.display = 'none';
+            document.getElementById('hint-button').disabled = false;
+            initializeSampleQuestions();
+        }
+
+        function handleQuestionSubmit() {
+            const questionInput = document.getElementById('question-input');
+            const question = questionInput.value.trim();
+            
+            if (!question) return;
+            if (!currentAnimal) {
+                startNewGame();
+                return;
+            }
+
+            let response = '';
+            const lowercaseQuestion = question.toLowerCase();
+
+            if (lowercaseQuestion.includes(currentAnimal.name.toLowerCase())) {
+                response = '🎉 Congratulations! You guessed the animal! Want to play another round?';
+                gameOver = true;
+            } else {
+                const categoryChecks = {
+                    mammal: lowercaseQuestion.includes('mammal') || lowercaseQuestion.includes('fur'),
+                    bird: lowercaseQuestion.includes('bird') || lowercaseQuestion.includes('feather'),
+                    amphibian: lowercaseQuestion.includes('amphibian') || lowercaseQuestion.includes('water'),
+                    reptile: lowercaseQuestion.includes('reptile') || lowercaseQuestion.includes('scales'),
+                    fish: lowercaseQuestion.includes('fish') || lowercaseQuestion.includes('water')
+                };
+
+                response = categoryChecks[currentAnimal.category] ? 'Yes!' :
+                    (lowercaseQuestion.includes('live') || lowercaseQuestion.includes('habitat')) ? 
+                    'Maybe, ask more specifically!' : 'No';
+            }
+
+            gameLog.push({ question, response });
+            questionInput.value = '';
+            updateGameLog();
+            checkGameOver();
+        }
+
+        function showHint() {
+            if (currentAnimal && hintIndex < currentAnimal.hints.length) {
+                gameLog.push({
+                    question: 'Hint',
+                    response: currentAnimal.hints[hintIndex]
+                });
+                hintIndex++;
+                if (hintIndex >= currentAnimal.hints.length) {
+                    document.getElementById('hint-button').disabled = true;
+                }
+                updateGameLog();
+            }
+        }
+
+        function revealSolution() {
+            if (currentAnimal) {
+                gameLog.push({
+                    question: 'Solution',
+                    response: `The animal was a ${currentAnimal.name}!`
+                });
+                gameOver = true;
+                updateGameLog();
+                checkGameOver();
+            }
+        }
+
+        function checkGameOver() {
+            if (gameOver) {
+                document.getElementById('new-game-button').style.display = 'block';
+            }
+        }
+
+        function updateGameLog() {
+            const logContainer = document.getElementById('game-log');
+            logContainer.innerHTML = gameLog.map(entry => `
+                <div class="log-entry">
+                    <strong>Q:</strong> ${entry.question}<br>
+                    <strong>A:</strong> ${entry.response}
+                </div>
+            `).join('');
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        function initializeSampleQuestions() {
+            const container = document.getElementById('sample-questions');
+            container.innerHTML = SAMPLE_QUESTIONS.map(question => `
+                <div class="sample-question" onclick="document.getElementById('question-input').value = '${question}'">
+                    ${question}
+                </div>
+            `).join('');
+        }
+
+        // Initialize sample questions on first load
+        initializeSampleQuestions();
+    </script>
+</body>
+</html>
